@@ -66,3 +66,10 @@ ls --color=auto -a
 rm -rf .git
 git init
 git add .
+git commit -m "create repo"
+git remote add origin https://github.com/mrquochung1502/freecodecamp-db-salon.git
+touch salon.sh
+code salon.sh
+pg_dump -cC --inserts -U freecodecamp salon > salon.sql
+chmod +x salon.sh
+git add .
