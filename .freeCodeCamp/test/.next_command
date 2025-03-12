@@ -111,3 +111,7 @@ git commit -m "build done"
 ./salon.sh
 ./salon.sh
 ./salon.sh
+./salon.sh
+./salon.sh
+pg_dump -cC --inserts -U freecodecamp salon > salon.sql
+git add .

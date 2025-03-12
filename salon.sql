@@ -50,7 +50,6 @@ SET default_table_access_method = heap;
 CREATE TABLE public.appointments (
     appointment_id integer NOT NULL,
     customer_id integer NOT NULL,
-    name character varying(20) NOT NULL,
     service_id integer NOT NULL,
     "time" character varying(20) NOT NULL
 );
@@ -174,32 +173,42 @@ ALTER TABLE ONLY public.services ALTER COLUMN service_id SET DEFAULT nextval('pu
 -- Data for Name: appointments; Type: TABLE DATA; Schema: public; Owner: freecodecamp
 --
 
+INSERT INTO public.appointments VALUES (1, 1, 1, '9');
+INSERT INTO public.appointments VALUES (21, 17, 5, '9');
+INSERT INTO public.appointments VALUES (22, 1, 3, '5');
 
 
 --
 -- Data for Name: customers; Type: TABLE DATA; Schema: public; Owner: freecodecamp
 --
 
+INSERT INTO public.customers VALUES (1, '1', 'haha');
+INSERT INTO public.customers VALUES (17, '2', 'huhu');
 
 
 --
 -- Data for Name: services; Type: TABLE DATA; Schema: public; Owner: freecodecamp
 --
 
+INSERT INTO public.services VALUES (1, 'cut');
+INSERT INTO public.services VALUES (2, 'color');
+INSERT INTO public.services VALUES (3, 'style');
+INSERT INTO public.services VALUES (4, 'body treatments');
+INSERT INTO public.services VALUES (5, 'nail');
 
 
 --
 -- Name: appointments_appointment_id_seq; Type: SEQUENCE SET; Schema: public; Owner: freecodecamp
 --
 
-SELECT pg_catalog.setval('public.appointments_appointment_id_seq', 1, false);
+SELECT pg_catalog.setval('public.appointments_appointment_id_seq', 22, true);
 
 
 --
 -- Name: customers_customer_id_seq; Type: SEQUENCE SET; Schema: public; Owner: freecodecamp
 --
 
-SELECT pg_catalog.setval('public.customers_customer_id_seq', 1, false);
+SELECT pg_catalog.setval('public.customers_customer_id_seq', 17, true);
 
 
 --
@@ -207,14 +216,6 @@ SELECT pg_catalog.setval('public.customers_customer_id_seq', 1, false);
 --
 
 SELECT pg_catalog.setval('public.services_service_id_seq', 1, false);
-
-
---
--- Name: appointments appointments_name_key; Type: CONSTRAINT; Schema: public; Owner: freecodecamp
---
-
-ALTER TABLE ONLY public.appointments
-    ADD CONSTRAINT appointments_name_key UNIQUE (name);
 
 
 --
