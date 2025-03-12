@@ -31,21 +31,33 @@ BOOK_SERVICE() {
 
 DISPLAY_SERVICES() {
   SERVICES=$($PSQL "SELECT service_id, name FROM services ORDER BY service_id")
-  echo "$SERVICES" | while read SERVICE_ID BAR NAME
+  echo "$SERVICES" | while read SERVICE_ID BAR SERVICE_NAME
   do
-    echo "$SERVICE_ID) $NAME"
+    echo "$SERVICE_ID) $SERVICE_NAME"
   done
 }
 
 CREATE_APPOINTMENT() {
   echo -e "\nWhat's your phone number?"
-  
   read CUSTOMER_PHONE
+  
   CUSTOMER_NAME=$($PSQL "SELECT name FROM customers WHERE phone = '$CUSTOMER_PHONE'")
 
   if [[ -z $CUSTOMER_NAME ]] 
   then
+    echo -e "\nWhat's your name?"
+    read CUSTOMER_NAME
+    $($PSQL "INSERT INTO customers(phone, name) VALUES('$CUSTOMER_PHONE', '$CUSTOMER_NAME')")
+  fi
+
+  CUSTOMER_ID=$($PSQL "SELECT customer_id FROM customers WHERE phone = '$CUSTOMER_PHONE'")
+
+  echo -e "\nGreeting $CUSTOMER_NAME. Tell us what time you would like for your $SERVICE_NAME:"
+  read SERVICE_TIME
   
+  $($PSQL "INSERT INTO appointments(customer_id, name, service_id, time) VALUES($CUSTOMER_ID, '$CUSTOMER_NAME', $SERVICE_ID, '$SERVICE_TIME')")
+
+  echo -e "\nI have put you down for a $SERVICE_NAME at $SERVICE_TIME, $CUSTOMER_NAME."
 }
 
 MAIN

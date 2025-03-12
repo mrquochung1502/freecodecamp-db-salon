@@ -103,3 +103,6 @@ psql -U postgres < salon.sql
 ./salon.sh
 ./salon.sh
 git add .
+git commit -m "working on appointments"
+git commit -m "working on appointments"
+git add .
