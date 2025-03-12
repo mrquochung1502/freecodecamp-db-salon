@@ -106,3 +106,8 @@ git add .
 git commit -m "working on appointments"
 git commit -m "working on appointments"
 git add .
+git commit -m "build done"
+./salon.sh
+./salon.sh
+./salon.sh
+./salon.sh

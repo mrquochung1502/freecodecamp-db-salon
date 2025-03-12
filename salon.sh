@@ -18,14 +18,15 @@ MAIN() {
 BOOK_SERVICE() {
   DISPLAY_SERVICES
   
-  read USER_SELECTION
-  SERVICE_ID_SELECTED=$($PSQL "SELECT service_id FROM services WHERE service_id = $USER_SELECTION")
+  read SERVICE_ID_SELECTED
+  SERVICE_ID_SELECTED=$($PSQL "SELECT service_id FROM services WHERE service_id = $SERVICE_ID_SELECTED")
 
   if [[ -z $SERVICE_ID_SELECTED ]]
   then
     MAIN "I could not find that service. Here are the list of available services."
   else
-    CREATE_APPOINTMENT
+    SERVICE_NAME_SELECTED=$($PSQL "SELECT name FROM services WHERE service_id = $SERVICE_ID_SELECTED")
+    CREATE_APPOINTMENT $SERVICE_ID_SELECTED $SERVICE_NAME_SELECTED
   fi
 }
 
@@ -47,17 +48,17 @@ CREATE_APPOINTMENT() {
   then
     echo -e "\nWhat's your name?"
     read CUSTOMER_NAME
-    $($PSQL "INSERT INTO customers(phone, name) VALUES('$CUSTOMER_PHONE', '$CUSTOMER_NAME')")
+    INSERT_CUSTOMER=$($PSQL "INSERT INTO customers(phone, name) VALUES('$CUSTOMER_PHONE', '$CUSTOMER_NAME')")
   fi
 
   CUSTOMER_ID=$($PSQL "SELECT customer_id FROM customers WHERE phone = '$CUSTOMER_PHONE'")
 
-  echo -e "\nGreeting $CUSTOMER_NAME. Tell us what time you would like for your $SERVICE_NAME:"
+  echo -e "\nGreeting $CUSTOMER_NAME. Tell us what time you would like for your $2:"
   read SERVICE_TIME
   
-  $($PSQL "INSERT INTO appointments(customer_id, name, service_id, time) VALUES($CUSTOMER_ID, '$CUSTOMER_NAME', $SERVICE_ID, '$SERVICE_TIME')")
+  INSERT_APPOINTMENT=$($PSQL "INSERT INTO appointments(customer_id, service_id, time) VALUES($CUSTOMER_ID, $1, '$SERVICE_TIME')")
 
-  echo -e "\nI have put you down for a $SERVICE_NAME at $SERVICE_TIME, $CUSTOMER_NAME."
+  echo -e "\nI have put you down for a $2 at $SERVICE_TIME, $CUSTOMER_NAME."
 }
 
 MAIN
